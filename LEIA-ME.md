@@ -1,3 +1,3 @@
 # Leia-me
 
-A documentacao principal em portugues esta em [README.md](README.md).
+A documentação principal em português está em [README.md](README.md).
