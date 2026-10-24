@@ -10,7 +10,7 @@ Adaptação experimental do Medal para Linux x86-64 com X11. Inclui gravação d
 
 A compatibilidade ainda é limitada e nem todos os recursos do Medal para Windows foram adaptados. Se algo não funcionar, [abra uma Issue](../../issues) com sua distribuição e versão, ambiente gráfico e sessão (X11 ou Wayland), nome do jogo, passos para reproduzir o problema e mensagens de erro relevantes. Remova nomes de usuário, caminhos pessoais e outros dados privados dos logs antes de anexá-los.
 
-## 🇬🇧 English
+## 🇺🇸 English
 
 An experimental adaptation of Medal for Linux x86-64 using X11. It includes replay recording, configurable hotkeys, a system tray icon, native Linux desktop notifications and detection for some games.
 
