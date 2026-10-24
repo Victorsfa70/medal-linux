@@ -21,7 +21,7 @@ from som_original import install_sound
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(os.environ.get('MEDAL_LINUX_DIR', str(Path.home() / '.local/share/medal-linux-prototype'))).expanduser().resolve()
-BUILD = '0.3.7-localized-clip-feedback'
+BUILD = '0.3.8-runtime-files'
 PACKAGES = [
     ('medal.nupkg', 'https://cdn.medal.tv/production/electron/Medal-2643.583.1-production-full.nupkg', 'f90404d67a87e1e6f0c00800ef03effd7385c50aa0e7cf58465bf9037fa2e25c'),
     ('electron.zip', 'https://github.com/electron/electron/releases/download/v43.8.3/electron-v43.8.3-linux-x64.zip', '73d7d6fe120c998db75834c23c8ce7ce8390607c198b2e167a28acd7937bef22'),
@@ -176,6 +176,24 @@ def install(packages):
     (ROOT / 'build.json').write_text(json.dumps({'build': BUILD, 'medal': '2643.583.1', 'electron': '43.8.3', 'offline': False}))
     print('✓ Medal is ready.', flush=True)
 
+def refresh_linux_files():
+    app = ROOT / 'app'
+    if not app.is_dir():
+        return
+    for source in (HERE / 'adaptacao').iterdir():
+        if source.is_file() and source.suffix in ('.cjs', '.py'):
+            shutil.copy2(source, app / source.name)
+    # Compatibility for a previously generated entry point using the old name.
+    shutil.copy2(HERE / 'adaptacao/teclado-global.py', app / 'linux-numpad.py')
+    icon = app / 'src/assets/icon/MedalApp.png'
+    if icon.is_file():
+        desktop_dir = Path(os.environ.get('XDG_DATA_HOME', str(Path.home() / '.local/share'))) / 'applications'
+        desktop_dir.mkdir(parents=True, exist_ok=True)
+        launcher = str(HERE / 'iniciar-interface.py')
+        entry = '[Desktop Entry]\nType=Application\nName=Medal\nExec=python3 ' + json.dumps(launcher) + '\nIcon=' + str(icon) + '\nTerminal=false\nCategories=AudioVideo;Video;Game;\nStartupWMClass=medal-linux\n'
+        (desktop_dir / 'medal-linux.desktop').write_text(entry)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--run', action='store_true')
@@ -191,6 +209,7 @@ def main():
     prepared = stamp.is_file() and json.loads(stamp.read_text()).get('build') == BUILD and (ROOT / 'runtime/electron').is_file()
     if not prepared or args.rebuild:
         install([download(*package) for package in PACKAGES])
+    refresh_linux_files()
     if args.run:
         missing = [name for name in ['ffmpeg', 'ffprobe'] if not shutil.which(name)]
         if missing:
