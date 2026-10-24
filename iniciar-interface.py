@@ -35,7 +35,7 @@ def main():
         progress = None
         if shutil.which('zenity'):
             progress = subprocess.Popen(['zenity', '--progress', '--pulsate', '--auto-close', '--title=Preparing Medal Linux', '--text=Preparing the application…', '--width=470', '--no-cancel'], stdin=subprocess.PIPE, text=True, env=dialog_env())
-        setup = subprocess.Popen([sys.executable, str(HERE / 'preparar.py')], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env)
+        setup = subprocess.Popen([sys.executable, str(HERE / 'preparar-aplicativo.py')], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env)
         output = []
         for line in setup.stdout:
             output.append(line)
@@ -53,11 +53,11 @@ def main():
         if status:
             message('Unable to prepare Medal', ''.join(output)[-6500:]); return status
     ROOT.mkdir(parents=True, exist_ok=True)
-    with (ROOT / 'iniciar-gui.log').open('w') as output:
-        process = subprocess.run([sys.executable, str(HERE / 'preparar.py'), '--run'], stdout=output, stderr=subprocess.STDOUT, env=env)
+    with (ROOT / 'iniciar-interface.log').open('w') as output:
+        process = subprocess.run([sys.executable, str(HERE / 'preparar-aplicativo.py'), '--run'], stdout=output, stderr=subprocess.STDOUT, env=env)
     if process.returncode:
         log = ROOT / 'ultima-abertura.log'
-        detail = log.read_text(errors='replace')[-6000:] if log.exists() else (ROOT / 'iniciar-gui.log').read_text(errors='replace')[-6000:]
+        detail = log.read_text(errors='replace')[-6000:] if log.exists() else (ROOT / 'iniciar-interface.log').read_text(errors='replace')[-6000:]
         message('Medal encountered a problem', detail)
     return process.returncode
 

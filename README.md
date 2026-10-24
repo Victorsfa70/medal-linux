@@ -1,26 +1,23 @@
-# Medal Linux adaptation
+# Adaptacao do Medal para Linux
 
-Unofficial, experimental Linux adaptation of Medal.tv for x86-64 systems using X11. It is not affiliated with or supported by Medal.tv.
+Projeto comunitario e experimental para Linux x86-64 com X11. Nao e oficial, afiliado ou mantido pelo Medal.tv.
 
-**Beta installer:** [GitHub Releases](https://github.com/Victorsfa70/medal-linux/releases)
+**Downloads beta:** [pagina de lancamentos](https://github.com/Victorsfa70/medal-linux/releases)
 
-## Compatibility
+## Compatibilidade
 
-Tested by the maintainer on Linux Mint 22 (Cinnamon, X11). Ubuntu 24.04 is suitable for the package dependencies, but broader desktop and hardware testing is limited. Requires x86-64, glibc 2.38+, libstdc++ 13+, Python 3.11+, X11 and FFmpeg. Wayland, ARM and older Mint/Ubuntu/Debian releases are unsupported.
+Testado pelo mantenedor no Linux Mint 22 Cinnamon/X11. Requer Linux x86-64, glibc 2.38 ou mais recente, libstdc++ 13 ou mais recente, Python 3.11 ou mais recente, X11 e FFmpeg. Wayland, ARM e distribuicoes mais antigas nao sao suportados. Outras distribuicoes e placas de video ainda precisam de testes reais.
 
-The app downloads the official Medal components during setup. The repository and installer do not include Medal's client binaries or user data.
+## Recursos e limites
 
-## What works
+Inclui a interface original do Medal, bandeja do sistema, gravacao de replay, atalhos configuraveis com suporte a numpad, notificacoes do Linux e selecao manual de janelas de jogos. Ha deteccao automatica para alguns jogos, incluindo Sober/Roblox, Minecraft e jogos Steam/Proton conhecidos.
 
-The original Medal interface, tray icon, replay recording, configurable shortcuts (including numpad keys), Linux desktop notifications and manual game-window selection. Sober/Roblox, Minecraft and some Steam/Proton games can be detected automatically.
+A captura exige que a janela do jogo permaneca visivel no X11. Desempenho, deteccao e compatibilidade variam por jogo e equipamento. Alguns recursos exclusivos do Medal para Windows ainda nao foram adaptados.
 
-Game detection and recording performance still need testing on more systems and games. Window capture requires the game to stay visible on X11. Some Windows-only Medal features are not implemented.
+## Instalacao
 
-## Install from source
+O instalador baixa componentes oficiais durante a configuracao e verifica seus hashes. Para compilar o pacote e consultar os testes, veja [VALIDACAO.md](VALIDACAO.md). Os nomes e a funcao de cada arquivo estao em [ARQUIVOS.md](ARQUIVOS.md). Avisos de terceiros: [AVISOS.md](AVISOS.md).
 
-See [VALIDATION.md](VALIDATION.md) for setup, compatibility details and test status. See [NOTICE.md](NOTICE.md) for third-party notices.
+## Privacidade
 
-## Privacy and local data
-
-The installer downloads pinned components from their publishers and verifies their checksums. Your Medal account, settings, shortcuts and recordings stay in your local profile; none are included in this repository. Review the source and diagnostics before sharing them.
-
+Conta, configuracoes, atalhos e gravacoes ficam no perfil local e nao sao incluidos neste repositorio. Nao envie seu perfil ou logs sem revisar o conteudo.

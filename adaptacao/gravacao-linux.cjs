@@ -5,10 +5,10 @@ const { execFile } = require('node:child_process');
 const { promisify } = require('node:util');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { Recorder } = require('./linux-recorder-core.cjs');
-const { ClipFeedback } = require('./linux-clip-feedback.cjs');
-const { Games } = require('./linux-games.cjs');
-const { Hotkeys } = require('./linux-hotkeys.cjs');
+const { Recorder } = require('./nucleo-gravador.cjs');
+const { ClipFeedback } = require('./notificacao-clipe.cjs');
+const { Games } = require('./jogos-linux.cjs');
+const { Hotkeys } = require('./atalhos-linux.cjs');
 const run = promisify(execFile);
 let controller;
 
@@ -51,7 +51,7 @@ function install(api) {
       const row = await api.createContent({ createdAt: Date.now(), uuid: crypto.randomUUID(), title: '', gameCategoryId: games.selected?.categoryId || '1b7CpvXVSuB', clipLocation: file, isImport: true, metadata: {} });
       api.allowPaths([file, row.thumbnail_path]); api.refresh(); return row;
     } });
-    recorder.on('saved', () => feedback.saved().catch(error => console.error('[linux-clip-feedback]', error)));
+    recorder.on('saved', () => feedback.saved().catch(error => console.error('[notificacao-clipe]', error)));
     recorder.on('state', () => {
       publish();
       require('node:fs/promises').writeFile(path.join(app.getPath('userData'), 'recording-diagnostics.json'), JSON.stringify(recorder.status().diagnostics, null, 2)).catch(() => {});
@@ -152,7 +152,7 @@ function install(api) {
       } else if (recorder.state === 'idle' && (await api.getSetting('RecordingEnabled')) !== false) {
         const target = games.autoTarget(rows.filter(w => !pausedWindows.has(w.windowId))); if (target) await setTargetProcess(target);
       }
-    } catch (error) { console.error('[linux-games]', error.message); }
+    } catch (error) { console.error('[jogos-linux]', error.message); }
     finally { polling = false; }
   }
   async function request(method) {

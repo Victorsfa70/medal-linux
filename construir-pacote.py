@@ -11,18 +11,18 @@ import zipfile
 HERE = Path(__file__).resolve().parent
 VERSION = '0.3.6'
 FILES = [
-    'README.md', 'NOTICE.md', 'VALIDATION.md', 'LEIA-ME.md', 'VALIDACAO.md', '.gitignore',
-    'build-package.py', 'preparar.py', 'original_sound.py', 'iniciar-gui.py', 'Iniciar.sh',
-    'adaptacao/linux-entry.cjs', 'adaptacao/linux-network.cjs',
-    'adaptacao/linux-velopack.cjs', 'adaptacao/linux-media.cjs',
-    'adaptacao/linux-recorder-core.cjs', 'adaptacao/linux-recording.cjs',
-    'adaptacao/linux-clip-feedback.cjs', 'adaptacao/linux-hotkeys.cjs', 'adaptacao/linux-numpad.py',
-    'adaptacao/linux-windows.py', 'adaptacao/linux-games.cjs',
+    'README.md', 'LEIA-ME.md', 'AVISOS.md', 'VALIDACAO.md', 'ARQUIVOS.md', '.gitignore',
+    'construir-pacote.py', 'preparar-aplicativo.py', 'som_original.py', 'iniciar-interface.py', 'iniciar.sh',
+    'adaptacao/entrada-linux.cjs', 'adaptacao/rede-linux.cjs',
+    'adaptacao/atualizador-velopack.cjs', 'adaptacao/miniaturas-linux.cjs',
+    'adaptacao/nucleo-gravador.cjs', 'adaptacao/gravacao-linux.cjs',
+    'adaptacao/notificacao-clipe.cjs', 'adaptacao/atalhos-linux.cjs', 'adaptacao/teclado-global.py',
+    'adaptacao/janelas-linux.py', 'adaptacao/jogos-linux.cjs',
 ]
 # Runtime library list resolved using dpkg-shlibdeps on the pinned Electron/SQLite ELFs.
 DEPENDENCIES = 'python3 (>= 3.11), libxi6, libnotify-bin, libglib2.0-bin, libzstd1, ffmpeg, pulseaudio-utils, zenity, x11-xserver-utils, x11-xkb-utils, libasound2t64 (>= 1.0.17), libatk-bridge2.0-0t64 (>= 2.5.3), libatk1.0-0t64 (>= 2.32.0), libatspi2.0-0t64 (>= 2.9.90), libc6 (>= 2.38), libcairo2 (>= 1.6.0), libcups2t64 (>= 1.7.0), libdbus-1-3 (>= 1.9.14), libexpat1 (>= 2.1~beta3), libgbm1 (>= 21.1.0), libgcc-s1 (>= 4.2), libglib2.0-0t64 (>= 2.40.0), libgtk-3-0t64 (>= 3.9.10), libnspr4 (>= 2:4.9-2~), libnss3 (>= 2:3.30), libpango-1.0-0 (>= 1.14.0), libstdc++6 (>= 13), libudev1 (>= 183), libx11-6 (>= 2:1.4.99.1), libxcb1 (>= 1.9.2), libxcomposite1 (>= 1:0.4.5), libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxkbcommon0 (>= 0.5.0), libxrandr2'
-LAUNCHER = '#!/bin/sh\nexec python3 /opt/medal-linux-prototype/iniciar-gui.py "$@"\n'
-DESKTOP = '[Desktop Entry]\nType=Application\nName=Medal\nComment=Unofficial Medal Linux adaptation\nExec=/usr/bin/medal-linux\nIcon=applications-multimedia\nTerminal=false\nCategories=AudioVideo;Video;Game;\nStartupWMClass=medal-linux\n'
+LAUNCHER = '#!/bin/sh\nexec python3 /opt/medal-linux-prototype/iniciar-interface.py "$@"\n'
+DESKTOP = '[Desktop Entry]\nType=Application\nName=Medal\nComment=Adaptacao experimental do Medal para Linux\nExec=/usr/bin/medal-linux\nIcon=applications-multimedia\nTerminal=false\nCategories=AudioVideo;Video;Game;\nStartupWMClass=medal-linux\n'
 
 def write(root, name, value, executable=False):
     destination = root / name
@@ -46,7 +46,7 @@ def main():
         write(root, 'usr/bin/medal-linux', LAUNCHER, True)
         write(root, 'usr/share/applications/medal-linux.desktop', DESKTOP)
         size = sum(p.stat().st_size for p in root.rglob('*') if p.is_file()) // 1024 + 1
-        write(root, 'DEBIAN/control', f'Package: medal-linux-prototype\nVersion: {VERSION}\nSection: video\nPriority: optional\nArchitecture: amd64\nMaintainer: Local Build <noreply@localhost>\nInstalled-Size: {size}\nDepends: {DEPENDENCIES}\nRecommends: libayatana-appindicator3-1\nDescription: Unofficial Medal interface with native Linux recording\n Downloads verified official components on first launch and applies local\n compatibility patches. Requires X11. Includes no account data or client binaries.\n')
+        write(root, 'DEBIAN/control', f'Package: medal-linux-prototype\nVersion: {VERSION}\nSection: video\nPriority: optional\nArchitecture: amd64\nMaintainer: Local Build <noreply@localhost>\nInstalled-Size: {size}\nDepends: {DEPENDENCIES}\nRecommends: libayatana-appindicator3-1\nDescription: Adaptacao experimental do Medal para Linux\n Baixa componentes oficiais verificados na primeira inicializacao. Requer X11.\n Nao inclui dados de conta nem binarios proprietarios.\n')
         deb = output / f'Medal-Linux-{VERSION}-amd64.deb'
         subprocess.run(['dpkg-deb', '--root-owner-group', '--build', str(root), str(deb)], check=True)
         extracted = Path(temporary) / 'verify'

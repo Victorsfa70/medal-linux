@@ -1,6 +1,6 @@
 const electron = require('electron');
 const { app, BrowserWindow, dialog } = electron;
-require('./linux-network.cjs').install(electron);
+require('./rede-linux.cjs').install(electron);
 const fs = require('node:fs');
 const path = require('node:path');
 const profile = process.env.MEDAL_LINUX_PROFILE || path.join(app.getPath('appData'), 'medal-linux-prototype');

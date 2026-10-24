@@ -18,7 +18,7 @@ class Games {
   constructor(profile) { this.file = path.join(profile, 'linux-game-targets.json'); this.targets = []; this.selected = null; this.suppressed = new Set(); }
   async load() { try { const value = JSON.parse(await fs.readFile(this.file, 'utf8')); if (Array.isArray(value)) this.targets = value.filter(v => typeof v.className === 'string' && typeof v.executable === 'string').slice(0, 100); } catch {} }
   async windows() {
-    const { stdout } = await run('python3', [path.join(__dirname, 'linux-windows.py')], { timeout: 5000, maxBuffer: 2 * 1024 * 1024 });
+    const { stdout } = await run('python3', [path.join(__dirname, 'janelas-linux.py')], { timeout: 5000, maxBuffer: 2 * 1024 * 1024 });
     const result = JSON.parse(stdout);
     return result.windows.filter(w => w.pid !== process.pid && !/^(medal-linux|medal)$/i.test(w.className) && !/^(cinnamon|nemo-desktop|xfce4-panel|plasmashell)$/i.test(w.className)).map(w => {
       const game = identify(w);

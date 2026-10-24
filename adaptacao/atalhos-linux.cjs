@@ -81,7 +81,7 @@ class Hotkeys {
   }
 
   registerKeypad(bindings, revision) {
-    const child = spawn('python3', [path.join(__dirname, 'linux-numpad.py')], { stdio: ['pipe', 'pipe', 'pipe'] });
+    const child = spawn('python3', [path.join(__dirname, 'teclado-global.py')], { stdio: ['pipe', 'pipe', 'pipe'] });
     this.keypadChild = child;
     child.stdin.on('error', () => {});
     child.stdin.end(JSON.stringify(bindings.map(({ id, keysym, modifiers }) => ({ id, keysym, modifiers }))) + '\n');

@@ -1,1 +1,3 @@
-See [README.md](README.md) for installation, compatibility and publication notes.
+# Leia-me
+
+A documentacao principal em portugues esta em [README.md](README.md).

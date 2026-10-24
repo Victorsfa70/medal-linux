@@ -17,7 +17,7 @@ import tempfile
 import urllib.request
 import zipfile
 import zlib
-from original_sound import install_sound
+from som_original import install_sound
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(os.environ.get('MEDAL_LINUX_DIR', str(Path.home() / '.local/share/medal-linux-prototype'))).expanduser().resolve()
@@ -149,25 +149,25 @@ def install(packages):
         install_sound(ROOT, app)
         for source in (HERE / 'adaptacao').iterdir():
             if source.is_file(): shutil.copy2(source, app / source.name)
-        replace_once(app / 'index.js', "require('velopack')", "require('./linux-velopack.cjs')")
+        replace_once(app / 'index.js', "require('velopack')", "require('./atualizador-velopack.cjs')")
         main = app / 'main.min.js'
-        replace_once(main, 'require("velopack")', 'require("./linux-velopack.cjs")')
+        replace_once(main, 'require("velopack")', 'require("./atualizador-velopack.cjs")')
         replace_once(main, 'async function btt(){await joe();', 'async function btt(){await joe();return;')
         replace_once(main, 'W.Telemetry=wr;', 'W.Telemetry=wr;wr.track=()=>{};wr.setUserProperties=()=>{};wr.setUserPropertiesOnce=()=>{};')
         replace_once(main, 'W.sampledSendToHoneycomb=Ga;', 'W.sampledSendToHoneycomb=()=>{};')
-        replace_once(main, 'async function TM(e,t,r=W.recorder?.namespacePath){', 'async function TM(e,t,r=W.recorder?.namespacePath){if(process.platform==="linux")return require("./linux-media.cjs").thumbnail(e,t);')
+        replace_once(main, 'async function TM(e,t,r=W.recorder?.namespacePath){', 'async function TM(e,t,r=W.recorder?.namespacePath){if(process.platform==="linux")return require("./miniaturas-linux.cjs").thumbnail(e,t);')
         replace_once(main, 'minHeight:800,show:!1,frame:!1,paintWhenInitiallyHidden:!0', 'minHeight:800,show:!1,frame:!0,autoHideMenuBar:!0,paintWhenInitiallyHidden:!0')
         replace_once(main, 'backgroundColor:"#000000",titleBarStyle:"hidden"', 'backgroundColor:"#000000",titleBarStyle:"default"')
         replace_once(main, 'var jY=process.platform==="win32"||process.platform==="darwin",H7e=', 'var jY=["win32","darwin","linux"].includes(process.platform),H7e=')
         replace_once(main, 'bte=()=>process.platform==="win32"?', 'bte=()=>process.platform==="linux"?ne.nativeImage.createFromPath(`${ne.app.getAppPath()}/src/assets/icon/MedalApp.png`).resize({width:24,height:24}):process.platform==="win32"?')
         replace_once(main, 'this.tray.setIgnoreDoubleClickEvents(!0);const t=()=>{process.platform==="win32"&&this._show()}', 'process.platform==="darwin"&&this.tray.setIgnoreDoubleClickEvents(!0);const t=()=>{process.platform!=="darwin"&&this._show()}')
-        replace_once(main, 'Ignoring screen recording start for cafe guest session");return}W.WSHandler', 'Ignoring screen recording start for cafe guest session");return}if(process.platform==="linux")return require("./linux-recording.cjs").setCapturing(e);W.WSHandler')
-        replace_once(main, 'Ignoring game request for cafe guest session");return}return W.logger.info', 'Ignoring game request for cafe guest session");return}if(process.platform==="linux")return require("./linux-recording.cjs").setTargetProcess(e);return W.logger.info')
+        replace_once(main, 'Ignoring screen recording start for cafe guest session");return}W.WSHandler', 'Ignoring screen recording start for cafe guest session");return}if(process.platform==="linux")return require("./gravacao-linux.cjs").setCapturing(e);W.WSHandler')
+        replace_once(main, 'Ignoring game request for cafe guest session");return}return W.logger.info', 'Ignoring game request for cafe guest session");return}if(process.platform==="linux")return require("./gravacao-linux.cjs").setTargetProcess(e);return W.logger.info')
         replace_once(app / 'chunks/renderer-useActiveProcesses.js', 'c=await p.get("/games/blacklist",e),', 'c=await p.get("/games/blacklist",e).catch(()=>[]),')
         replace_once(main, 'async _triggerAutoFocusTimeout(){await Ut(xe.AutoFocus)', 'async _triggerAutoFocusTimeout(){if(process.platform==="linux")return;await Ut(xe.AutoFocus)')
-        main.write_text(main.read_text() + '\nrequire("./linux-recording.cjs").install({createContent:iW,list:_i,counts:oW,allowPaths:cs,refresh:Yo,context:W,events:Je,getSetting:Ut,setState:jt,setGameState:eq});\n')
+        main.write_text(main.read_text() + '\nrequire("./gravacao-linux.cjs").install({createContent:iW,list:_i,counts:oW,allowPaths:cs,refresh:Yo,context:W,events:Je,getSetting:Ut,setState:jt,setGameState:eq});\n')
         metadata = json.loads((app / 'package.json').read_text())
-        metadata['main'] = 'linux-entry.cjs'
+        metadata['main'] = 'entrada-linux.cjs'
         (app / 'package.json').write_text(json.dumps(metadata, indent=2))
         for name in ['app', 'runtime']:
             destination = ROOT / name

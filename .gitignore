@@ -43,7 +43,3 @@ linux-recording.json
 *.mp3
 *.ogg
 recording-diagnostics.json
-
-# Explicitly versioned clean bootstrap release
-!/packages/
-!/packages/*.deb
