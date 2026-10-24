@@ -1,0 +1,49 @@
+# Generated application, dependencies, caches and packages
+/build/
+/dist/
+/app/
+/runtime/
+/downloads/
+/preparando-*/
+/deb-root*/
+*.deb
+*.zip
+*.nupkg
+*.asar
+*.node
+__pycache__/
+*.py[cod]
+# Local profiles, credentials, databases and recordings
+*profile*/
+.config/
+.local/
+Videos/
+Documents/
+Downloads/
+*.sqlite*
+*.db*
+Cookies*
+Login\ Data*
+Local\ State
+Preferences
+linux-game-targets.json
+linux-recording.json
+*.mkv
+*.mp4
+*.webm
+*.log
+*.png
+*.jpg
+.env*
+*.pem
+*.key
+
+# Vendor audio and local recording diagnostics
+*.wav
+*.mp3
+*.ogg
+recording-diagnostics.json
+
+# Explicitly versioned clean bootstrap release
+!/packages/
+!/packages/*.deb
