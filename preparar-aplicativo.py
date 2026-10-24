@@ -21,7 +21,7 @@ from som_original import install_sound
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(os.environ.get('MEDAL_LINUX_DIR', str(Path.home() / '.local/share/medal-linux-prototype'))).expanduser().resolve()
-BUILD = '0.3.6-native-feedback'
+BUILD = '0.3.7-localized-clip-feedback'
 PACKAGES = [
     ('medal.nupkg', 'https://cdn.medal.tv/production/electron/Medal-2643.583.1-production-full.nupkg', 'f90404d67a87e1e6f0c00800ef03effd7385c50aa0e7cf58465bf9037fa2e25c'),
     ('electron.zip', 'https://github.com/electron/electron/releases/download/v43.8.3/electron-v43.8.3-linux-x64.zip', '73d7d6fe120c998db75834c23c8ce7ce8390607c198b2e167a28acd7937bef22'),

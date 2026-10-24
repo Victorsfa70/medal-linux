@@ -19,7 +19,7 @@ class OfficialZip(io.RawIOBase):
             self.size = int(response.headers['Content-Range'].split('/')[-1])
         if not 0 < self.size < 2_000_000_000: raise RuntimeError('Invalid official recorder archive size.')
     def response(self, first, last):
-        response = urllib.request.urlopen(urllib.request.Request(URL, headers={'Range': f'bytes={first}-{last}', 'User-Agent': 'MedalLinuxPrototype/0.3.6'}), timeout=60)
+        response = urllib.request.urlopen(urllib.request.Request(URL, headers={'Range': f'bytes={first}-{last}', 'User-Agent': 'MedalLinuxPrototype/0.3.7'}), timeout=60)
         if response.status != 206 or not response.headers.get('Content-Range', '').startswith(f'bytes {first}-{last}/'):
             response.close(); raise RuntimeError('Official server did not honor the requested byte range.')
         return response

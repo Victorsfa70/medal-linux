@@ -9,7 +9,7 @@ import sys
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(os.environ.get('MEDAL_LINUX_DIR', str(Path.home() / '.local/share/medal-linux-prototype'))).expanduser()
-BUILD = '0.3.6-native-feedback'
+BUILD = '0.3.7-localized-clip-feedback'
 
 def dialog_env():
     return {**os.environ, 'LANGUAGE': 'en', 'LC_ALL': 'C.UTF-8'}

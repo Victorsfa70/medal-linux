@@ -9,7 +9,7 @@ import tempfile
 import zipfile
 
 HERE = Path(__file__).resolve().parent
-VERSION = '0.3.6'
+VERSION = '0.3.7'
 FILES = [
     'README.md', 'LEIA-ME.md', 'AVISOS.md', 'VALIDACAO.md', 'ARQUIVOS.md', '.gitignore',
     'construir-pacote.py', 'preparar-aplicativo.py', 'som_original.py', 'iniciar-interface.py', 'iniciar.sh',
